@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FolderUIGram.MessagesPage"
+             Title="Send Messages">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#EEF2F6" Offset="0.0"/>
+            <GradientStop Color="#E0E7FF" Offset="0.4"/>
+            <GradientStop Color="#FAE8FF" Offset="0.8"/>
+            <GradientStop Color="#FDF2F8" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid>
+        <!-- Logged in State UI -->
+        <ScrollView x:Name="MainContentScroll" IsVisible="True">
+            <VerticalStackLayout Padding="20" Spacing="20">
+                
+                <!-- Page Title / Header -->
+                <VerticalStackLayout Spacing="5" Margin="0,0,0,5">
+                    <Label Text="Quick Message" FontSize="28" FontAttributes="Bold" TextColor="#1E1B4B"/>
+                    <Label Text="Send text messages to your Telegram chats and channels." FontSize="13" TextColor="#4B5563"/>
+                </VerticalStackLayout>
+
+                <!-- Select Target Chat/Channel Glass Card -->
+                <Border Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#B3FFFFFF" StrokeShape="RoundRectangle 24" Padding="25">
+                    <Border.Shadow>
+                        <Shadow Brush="#4F46E5" Offset="0,15" Radius="25" Opacity="0.12"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="Select Destination" FontSize="18" FontAttributes="Bold" TextColor="#1E1B4B"/>
+                        
+                        <Button x:Name="LoadChatsButton" Text="🔄 Fetch/Refresh Chats" Clicked="LoadChatsButton_Clicked" 
+                                BackgroundColor="#2563EB" TextColor="White" CornerRadius="12" HeightRequest="45" FontAttributes="Bold"/>
+                        
+                        <Border Stroke="#406366F1" StrokeThickness="1.5" BackgroundColor="#66FFFFFF" StrokeShape="RoundRectangle 12" Padding="10,0" HeightRequest="60">
+                            <Picker x:Name="TargetChatPicker" Title="Select a chat or channel..." TitleColor="#6B7280" TextColor="#1E1B4B" VerticalOptions="Center" HeightRequest="60" FontSize="15" FontAttributes="Bold" ItemDisplayBinding="{Binding DisplayTitle}"/>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Message Composer Glass Card -->
+                <Border Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#B3FFFFFF" StrokeShape="RoundRectangle 24" Padding="25">
+                    <Border.Shadow>
+                        <Shadow Brush="#4F46E5" Offset="0,15" Radius="25" Opacity="0.12"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="Compose Message" FontSize="18" FontAttributes="Bold" TextColor="#1E1B4B"/>
+
+                        <Border Stroke="#406366F1" StrokeThickness="1.5" BackgroundColor="#66FFFFFF" StrokeShape="RoundRectangle 12" Padding="15,10" HeightRequest="150">
+                            <Editor x:Name="MessageEditor" Placeholder="Type your message here..." PlaceholderColor="#6B7280" TextColor="#1E1B4B" 
+                                    FontSize="14" AutoSize="Disabled" VerticalOptions="FillAndExpand"/>
+                        </Border>
+
+                        <Button x:Name="SendMessageButton" Text="✈️ Send Message" Clicked="SendMessageButton_Clicked" 
+                                TextColor="White" CornerRadius="12" HeightRequest="50" FontSize="16" FontAttributes="Bold">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#6366F1" Offset="0.0"/>
+                                    <GradientStop Color="#EC4899" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Status Glass Card -->
+                <Border x:Name="StatusCard" Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#E0E7FF" StrokeShape="RoundRectangle 20" Padding="20" IsVisible="False">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Send Status" FontSize="15" FontAttributes="Bold" TextColor="#1E1B4B"/>
+                        <Label x:Name="StatusTextLabel" Text="Waiting..." FontSize="13" TextColor="#312E81" LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Access Denied / Authentication Required Overlay Card -->
+        <VerticalStackLayout x:Name="NotLoggedInPanel" IsVisible="False" VerticalOptions="Center" HorizontalOptions="Center" Spacing="20" Padding="30">
+            <Border Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#CCFFFFFF" StrokeShape="RoundRectangle 24" Padding="30" WidthRequest="340">
+                <Border.Shadow>
+                    <Shadow Brush="#4F46E5" Offset="0,15" Radius="25" Opacity="0.15"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
+                    <Label Text="🔒" FontSize="56" HorizontalOptions="Center" Margin="0,0,0,5"/>
+                    <Label Text="Sign In Required" FontSize="22" FontAttributes="Bold" TextColor="#1E1B4B" HorizontalOptions="Center"/>
+                    <Label Text="Please configure your Telegram API details and login in Settings to send messages." 
+                           TextColor="#4B5563" LineBreakMode="WordWrap" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="14"/>
+                    <Button Text="Go to Settings" Clicked="GoToSettingsButton_Clicked" 
+                            TextColor="White" CornerRadius="12" HeightRequest="48" FontAttributes="Bold" FontSize="15" Margin="0,10,0,0">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#6366F1" Offset="0.0"/>
+                                <GradientStop Color="#EC4899" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

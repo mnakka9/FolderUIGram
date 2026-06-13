@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:FolderUIGram.Converters"
+             x:Class="FolderUIGram.ActionsPage"
+             Title="Upload Folders">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#EEF2F6" Offset="0.0"/>
+            <GradientStop Color="#E0E7FF" Offset="0.4"/>
+            <GradientStop Color="#FAE8FF" Offset="0.8"/>
+            <GradientStop Color="#FDF2F8" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid>
+        <!-- Logged in State UI -->
+        <ScrollView x:Name="MainContentScroll" IsVisible="True">
+            <VerticalStackLayout Padding="20" Spacing="25">
+                
+                <!-- Account Display Glass Card -->
+                <Border Stroke="#B3FFFFFF" StrokeThickness="1.5" BackgroundColor="#80FFFFFF" StrokeShape="RoundRectangle 16" Padding="15">
+                    <Border.Shadow>
+                        <Shadow Brush="#4F46E5" Offset="0,4" Radius="10" Opacity="0.06"/>
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="Auto, *">
+                        <Label Text="👤" FontSize="24" VerticalOptions="Center" Margin="0,0,12,0"/>
+                        <Label x:Name="UserLabel" Grid.Column="1" FontSize="14" FontAttributes="Bold" TextColor="#1E1B4B" VerticalOptions="Center" Text="Logged in as: User"/>
+                    </Grid>
+                </Border>
+
+                <!-- Folder Selection & Channel Picker Glass Card -->
+                <Border Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#B3FFFFFF" StrokeShape="RoundRectangle 24" Padding="25">
+                    <Border.Shadow>
+                        <Shadow Brush="#4F46E5" Offset="0,15" Radius="25" Opacity="0.12"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="20">
+                        <Label Text="Upload Configuration" FontSize="20" FontAttributes="Bold" TextColor="#1E1B4B"/>
+
+                        <!-- Folder Picker Button -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Folder to Upload" TextColor="#4F46E5" FontSize="13" FontAttributes="Bold"/>
+                            <Button x:Name="ChoseFolder" Text="📁 Choose Local Folder" Clicked="ChoseFolder_Clicked" 
+                                    BackgroundColor="#2563EB" TextColor="White" CornerRadius="12" HeightRequest="45" FontAttributes="Bold"
+                                    IsEnabled="{Binding IsUploading, Converter={StaticResource InvertedBoolConverter}}"/>
+                            <Label x:Name="FolderPathLabel" Text="No folder selected" FontSize="13" TextColor="#374151" HorizontalOptions="Center" Margin="0,5,0,0" LineBreakMode="WordWrap"/>
+                        </VerticalStackLayout>
+
+                        <!-- Channel/Chat Picker -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Destination Chat / Channel" TextColor="#4F46E5" FontSize="13" FontAttributes="Bold"/>
+                            <Border Stroke="#406366F1" StrokeThickness="1.5" BackgroundColor="#66FFFFFF" StrokeShape="RoundRectangle 12" Padding="10,0" HeightRequest="60">
+                                <Picker x:Name="ChannelsListView" Title="Choose target channel..." TitleColor="#6B7280" TextColor="#1E1B4B" VerticalOptions="Center" HeightRequest="60" FontSize="15" FontAttributes="Bold" ItemDisplayBinding="{Binding DisplayTitle}"
+                                        IsEnabled="{Binding IsUploading, Converter={StaticResource InvertedBoolConverter}}"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Convert Video Option -->
+                        <HorizontalStackLayout Spacing="12" VerticalOptions="Center" Margin="0,5,0,0">
+                            <Switch x:Name="ConvertVideosSwitch" IsToggled="False" VerticalOptions="Center"
+                                    IsEnabled="{Binding IsUploading, Converter={StaticResource InvertedBoolConverter}}"/>
+                            <Label Text="Convert non-MP4 videos to MP4 using FFmpeg" TextColor="#1E1B4B" FontSize="14" VerticalOptions="Center" FontAttributes="Bold"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Start Upload Button Glass Card -->
+                <Border Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#B3FFFFFF" StrokeShape="RoundRectangle 24" Padding="20">
+                    <Border.Shadow>
+                        <Shadow Brush="#4F46E5" Offset="0,10" Radius="20" Opacity="0.1"/>
+                    </Border.Shadow>
+                    <Button x:Name="StartUploadButton" Text="🚀 Start Upload to Telegram" Clicked="StartUploadButton_Clicked" 
+                            TextColor="White" CornerRadius="12" HeightRequest="50" FontSize="16" FontAttributes="Bold"
+                            IsEnabled="{Binding IsUploading, Converter={StaticResource InvertedBoolConverter}}">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#6366F1" Offset="0.0"/>
+                                <GradientStop Color="#EC4899" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </Border>
+
+                <!-- Progress Glass Card -->
+                <Border x:Name="ProgressCard" Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#B3FFFFFF" StrokeShape="RoundRectangle 24" Padding="25" IsVisible="False">
+                    <Border.Shadow>
+                        <Shadow Brush="#10B981" Offset="0,15" Radius="25" Opacity="0.12"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="Uploading Files..." FontSize="18" FontAttributes="Bold" TextColor="#1E1B4B"/>
+                        
+                        <Label x:Name="CurrentFileLabel" Text="{Binding CurrentFileText}" FontSize="13" TextColor="#374151" LineBreakMode="TailTruncation"/>
+                        
+                        <!-- Styled Progress Bar -->
+                        <Border Stroke="#3010B981" StrokeThickness="1.5" BackgroundColor="#10000000" StrokeShape="RoundRectangle 8" HeightRequest="20" Padding="1">
+                            <ProgressBar x:Name="UploadProgressBar" Progress="{Binding OverallProgress}" ProgressColor="#10B981" HeightRequest="18"/>
+                        </Border>
+
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label x:Name="ProgressDetailsLabel" Text="{Binding OverallProgressText}" FontSize="13" TextColor="#4B5563"/>
+                            <Label Grid.Column="1" Text="{Binding OverallProgress, StringFormat='{0:P0}'}" FontSize="15" FontAttributes="Bold" TextColor="#10B981"/>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Log Section Glass Card -->
+                <Border x:Name="LogCard" Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#A6FFFFFF" StrokeShape="RoundRectangle 24" Padding="20" HeightRequest="300" IsVisible="False">
+                    <Grid RowDefinitions="Auto, *">
+                        <Label Text="Activity &amp; Operation Logs" FontSize="16" FontAttributes="Bold" TextColor="#1E1B4B" Margin="0,0,0,10"/>
+                        <ScrollView x:Name="LogScrollView" Grid.Row="1" VerticalOptions="FillAndExpand">
+                            <Label x:Name="LogTextArea" Text="{Binding LogText}" FontSize="11" FontFamily="Consolas,Courier New" TextColor="#065F46" LineBreakMode="WordWrap"/>
+                        </ScrollView>
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Access Denied / Authentication Required Overlay Card -->
+        <VerticalStackLayout x:Name="NotLoggedInPanel" IsVisible="False" VerticalOptions="Center" HorizontalOptions="Center" Spacing="20" Padding="30">
+            <Border Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#CCFFFFFF" StrokeShape="RoundRectangle 24" Padding="30" WidthRequest="340">
+                <Border.Shadow>
+                    <Shadow Brush="#4F46E5" Offset="0,15" Radius="25" Opacity="0.15"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
+                    <Label Text="🔒" FontSize="56" HorizontalOptions="Center" Margin="0,0,0,5"/>
+                    <Label Text="Sign In Required" FontSize="22" FontAttributes="Bold" TextColor="#1E1B4B" HorizontalOptions="Center"/>
+                    <Label Text="Please configure your Telegram API details and login in Settings to use the upload page." 
+                           TextColor="#4B5563" LineBreakMode="WordWrap" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="14"/>
+                    <Button Text="Go to Settings" Clicked="GoToSettingsButton_Clicked" 
+                            TextColor="White" CornerRadius="12" HeightRequest="48" FontAttributes="Bold" FontSize="15" Margin="0,10,0,0">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#6366F1" Offset="0.0"/>
+                                <GradientStop Color="#EC4899" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

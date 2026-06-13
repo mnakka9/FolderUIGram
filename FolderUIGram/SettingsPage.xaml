@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FolderUIGram.SettingsPage"
+             Title="Settings &amp; Account">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#EEF2F6" Offset="0.0"/>
+            <GradientStop Color="#E0E7FF" Offset="0.4"/>
+            <GradientStop Color="#FAE8FF" Offset="0.8"/>
+            <GradientStop Color="#FDF2F8" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20, 30" Spacing="25" VerticalOptions="Center">
+            <!-- App Header -->
+            <VerticalStackLayout Spacing="5" HorizontalOptions="Center" Margin="0,0,0,10">
+                <Label Text="FolderGram" FontSize="38" FontAttributes="Bold" TextColor="#4F46E5" HorizontalOptions="Center"/>
+                <Label Text="Material Liquid Glass Telegram Uploader" FontSize="14" TextColor="#4B5563" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Status Glass Card -->
+            <Border Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#B3FFFFFF" StrokeShape="RoundRectangle 24" Padding="20" Margin="0,0,0,10">
+                <Border.Shadow>
+                    <Shadow Brush="#4F46E5" Offset="0,8" Radius="18" Opacity="0.1"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="10">
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <BoxView WidthRequest="12" HeightRequest="12" CornerRadius="6" x:Name="StatusIndicator" Color="Red" VerticalOptions="Center"/>
+                        <Label x:Name="StatusLabel" Text="Disconnected" FontSize="16" FontAttributes="Bold" TextColor="#1E1B4B" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    <Label x:Name="UserDetailLabel" Text="Please enter API configuration and sign in." FontSize="14" TextColor="#374151"/>
+                    
+                    <Button x:Name="LogoutButton" Text="Logout Account" Clicked="LogoutButton_Clicked" 
+                            BackgroundColor="#EF4444" TextColor="White" CornerRadius="12" Margin="0,10,0,0" HeightRequest="42" Padding="15, 0" IsVisible="False"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- FFmpeg Status Glass Card -->
+            <Border Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#B3FFFFFF" StrokeShape="RoundRectangle 24" Padding="20" Margin="0,0,0,10">
+                <Border.Shadow>
+                    <Shadow Brush="#4F46E5" Offset="0,8" Radius="18" Opacity="0.1"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="FFmpeg Status" FontSize="18" FontAttributes="Bold" TextColor="#1E1B4B" Margin="0,0,0,5"/>
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <BoxView WidthRequest="12" HeightRequest="12" CornerRadius="6" x:Name="FFmpegStatusIndicator" Color="Red" VerticalOptions="Center"/>
+                        <Label x:Name="FFmpegStatusLabel" Text="Not Installed" FontSize="16" FontAttributes="Bold" TextColor="#1E1B4B" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    <Label x:Name="FFmpegDetailLabel" Text="FFmpeg is required for video conversion. It will be downloaded automatically when needed, or you can download it now." FontSize="14" TextColor="#374151"/>
+                    
+                    <Button x:Name="DownloadFFmpegButton" Text="Download FFmpeg" Clicked="DownloadFFmpegButton_Clicked" 
+                            BackgroundColor="#4F46E5" TextColor="White" CornerRadius="12" Margin="0,10,0,0" HeightRequest="42" Padding="15, 0"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Login Credentials Glass Card -->
+            <Border x:Name="CredentialsCard" Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#B3FFFFFF" StrokeShape="RoundRectangle 24" Padding="25">
+                <Border.Shadow>
+                    <Shadow Brush="#4F46E5" Offset="0,15" Radius="25" Opacity="0.12"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="Telegram API Settings" FontSize="20" FontAttributes="Bold" TextColor="#1E1B4B" Margin="0,0,0,5"/>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="API ID" TextColor="#4F46E5" FontSize="13" FontAttributes="Bold"/>
+                        <Border Stroke="#406366F1" StrokeThickness="1.5" BackgroundColor="#66FFFFFF" StrokeShape="RoundRectangle 12" Padding="15,0">
+                            <Entry x:Name="ApiIdEntry" Placeholder="e.g. 123456" PlaceholderColor="#9CA3AF" TextColor="#1E1B4B" HeightRequest="45" Keyboard="Numeric"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="API Hash" TextColor="#4F46E5" FontSize="13" FontAttributes="Bold"/>
+                        <Border Stroke="#406366F1" StrokeThickness="1.5" BackgroundColor="#66FFFFFF" StrokeShape="RoundRectangle 12" Padding="15,0">
+                            <Entry x:Name="ApiHashEntry" Placeholder="e.g. 8a2f1c843..." PlaceholderColor="#9CA3AF" TextColor="#1E1B4B" HeightRequest="45"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Phone Number" TextColor="#4F46E5" FontSize="13" FontAttributes="Bold"/>
+                        <Border Stroke="#406366F1" StrokeThickness="1.5" BackgroundColor="#66FFFFFF" StrokeShape="RoundRectangle 12" Padding="15,0">
+                            <Entry x:Name="PhoneNumberEntry" Placeholder="+1234567890" PlaceholderColor="#9CA3AF" TextColor="#1E1B4B" HeightRequest="45" Keyboard="Telephone"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <Button x:Name="LoginButton" Text="Connect &amp; Send Code" Clicked="LoginButton_Clicked" 
+                            TextColor="White" CornerRadius="12" HeightRequest="50" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#6366F1" Offset="0.0"/>
+                                <GradientStop Color="#EC4899" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Verification Phase Cards -->
+            <!-- Verification Code Glass Card -->
+            <Border x:Name="CodePanel" IsVisible="False" Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#B3FFFFFF" StrokeShape="RoundRectangle 24" Padding="25">
+                <Border.Shadow>
+                    <Shadow Brush="#10B981" Offset="0,15" Radius="25" Opacity="0.12"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Enter Verification Code" FontSize="18" FontAttributes="Bold" TextColor="#1E1B4B"/>
+                    <Label Text="We have sent a verification code to your Telegram app." FontSize="13" TextColor="#4B5563"/>
+                    
+                    <Border Stroke="#4010B981" StrokeThickness="1.5" BackgroundColor="#66FFFFFF" StrokeShape="RoundRectangle 12" Padding="15,0">
+                        <Entry x:Name="CodeEntry" Placeholder="Verification Code" PlaceholderColor="#9CA3AF" TextColor="#1E1B4B" HeightRequest="45" Keyboard="Numeric"/>
+                    </Border>
+                    
+                    <Button x:Name="SubmitCodeButton" Text="Verify &amp; Sign In" Clicked="SubmitCodeButton_Clicked" 
+                            BackgroundColor="#10B981" TextColor="White" CornerRadius="12" HeightRequest="48" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Two Factor (2FA) Password Glass Card -->
+            <Border x:Name="TwoFactorPanel" IsVisible="False" Stroke="#B3FFFFFF" StrokeThickness="2" BackgroundColor="#B3FFFFFF" StrokeShape="RoundRectangle 24" Padding="25">
+                <Border.Shadow>
+                    <Shadow Brush="#10B981" Offset="0,15" Radius="25" Opacity="0.12"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Enter 2FA Password" FontSize="18" FontAttributes="Bold" TextColor="#1E1B4B"/>
+                    <Label Text="Your Telegram account is protected with a two-step verification password." FontSize="13" TextColor="#4B5563"/>
+                    
+                    <Border Stroke="#4010B981" StrokeThickness="1.5" BackgroundColor="#66FFFFFF" StrokeShape="RoundRectangle 12" Padding="15,0">
+                        <Entry x:Name="TwoFactorEntry" IsPassword="True" Placeholder="2FA Password" PlaceholderColor="#9CA3AF" TextColor="#1E1B4B" HeightRequest="45"/>
+                    </Border>
+                    
+                    <Button x:Name="SubmitTwoFactorButton" Text="Submit Password" Clicked="SubmitTwoFactorButton_Clicked" 
+                            BackgroundColor="#10B981" TextColor="White" CornerRadius="12" HeightRequest="48" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
