@@ -51,3 +51,6 @@ A modern, cross-platform Telegram bulk file uploader built with **.NET MAUI** an
 
 ## 📜 License
 This project is licensed under the MIT License.
+
+## Limitations:
+- Conversion via ffmpeg is not working in Android as it is windows related library. 
