@@ -4,18 +4,69 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FolderUIGram"
-    Title="FolderUIGram">
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title="FolderGram"
+    FlyoutBehavior="Locked"
+    FlyoutWidth="220"
+    Shell.NavBarIsVisible="False"
+    Shell.BackgroundColor="Transparent"
+    Shell.FlyoutBackground="{DynamicResource GlassSurfaceAltBrush}"
+    BackgroundColor="{DynamicResource AppBackground}">
 
-    <TabBar x:Name="MainTabBar">
-        <Tab Title="Upload" Route="UploadTab">
-            <ShellContent ContentTemplate="{DataTemplate local:ActionsPage}" Route="UploadPage" />
-        </Tab>
-        <Tab Title="Messages" Route="MessagesTab">
-            <ShellContent ContentTemplate="{DataTemplate local:MessagesPage}" Route="MessagesPage" />
-        </Tab>
-        <Tab Title="Settings" Route="SettingsTab">
-            <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}" Route="SettingsPage" />
-        </Tab>
-    </TabBar>
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <HorizontalStackLayout Spacing="10" Padding="20,28,20,18">
+                <Border WidthRequest="34" HeightRequest="34" StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                        Background="{DynamicResource AccentPrimaryBrush}">
+                    <Label Text="F" TextColor="White" FontAttributes="Bold" FontSize="18"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <Label Text="FolderGram" FontSize="20" FontAttributes="Bold" TextColor="{DynamicResource TextPrimary}" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Border x:Name="NavItem" Margin="12,3" Padding="14,0" HeightRequest="44" StrokeThickness="0"
+                    StrokeShape="RoundRectangle 12" BackgroundColor="Transparent">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource AccentSoft}"/>
+                                    <Setter TargetName="NavLabel" Property="Label.TextColor" Value="{DynamicResource TextPrimary}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+                <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Image Source="{Binding FlyoutIcon}" WidthRequest="20" HeightRequest="20" VerticalOptions="Center">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{DynamicResource AccentPrimary}"/>
+                        </Image.Behaviors>
+                    </Image>
+                    <Label x:Name="NavLabel" Text="{Binding Title}" Style="{StaticResource NavItemLabel}"/>
+                </HorizontalStackLayout>
+            </Border>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <FlyoutItem Title="Upload" Icon="icon_upload.png" Route="UploadTab">
+        <ShellContent ContentTemplate="{DataTemplate local:ActionsPage}" Route="UploadPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Messages" Icon="icon_message.png" Route="MessagesTab">
+        <ShellContent ContentTemplate="{DataTemplate local:MessagesPage}" Route="MessagesPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Settings" Icon="icon_settings.png" Route="SettingsTab">
+        <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}" Route="SettingsPage" />
+    </FlyoutItem>
 
 </Shell>

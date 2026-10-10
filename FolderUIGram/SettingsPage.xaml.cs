@@ -9,6 +9,22 @@ namespace FolderUIGram
         public SettingsPage()
         {
             InitializeComponent();
+            ThemePicker.ItemsSource = ThemeService.Names.ToList();
+            ThemePicker.SelectedItem = ThemeService.CurrentName;
+        }
+
+        private void ThemePicker_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (ThemePicker.SelectedItem is string name && name != ThemeService.CurrentName)
+                ThemeService.Apply(name);
+        }
+
+        private async void CopyFFmpegPathButton_Clicked(object? sender, EventArgs e)
+        {
+            await Clipboard.Default.SetTextAsync(FFmpegService.Instance.FFmpegExePath);
+            CopyFFmpegPathButton.Text = "Copied";
+            await Task.Delay(1500);
+            CopyFFmpegPathButton.Text = "Copy full path";
         }
 
         protected override async void OnAppearing()
@@ -37,7 +53,7 @@ namespace FolderUIGram
             if (loggedIn)
             {
                 var user = TelegramService.Instance.Client?.User;
-                StatusIndicator.Color = Colors.Green;
+                StatusDot.SetDynamicResource(Border.BackgroundProperty, "SuccessBrush");
                 StatusLabel.Text = "Connected";
                 UserDetailLabel.Text = $"Logged in as: {user?.first_name} {user?.last_name} (@{user?.username})";
                 LogoutButton.IsVisible = true;
@@ -47,7 +63,7 @@ namespace FolderUIGram
             }
             else
             {
-                StatusIndicator.Color = Colors.Red;
+                StatusDot.SetDynamicResource(Border.BackgroundProperty, "DangerBrush");
                 StatusLabel.Text = "Disconnected";
                 LogoutButton.IsVisible = false;
 
@@ -177,17 +193,19 @@ namespace FolderUIGram
         {
             if (FFmpegService.Instance.IsFFmpegInstalled)
             {
-                FFmpegStatusIndicator.Color = Colors.Green;
+                FFmpegStatusDot.SetDynamicResource(Border.BackgroundProperty, "SuccessBrush");
                 FFmpegStatusLabel.Text = "Installed";
                 FFmpegDetailLabel.Text = $"Located at: {FFmpegService.Instance.FFmpegExePath}";
                 DownloadFFmpegButton.IsVisible = false;
+                CopyFFmpegPathButton.IsVisible = true;
             }
             else
             {
-                FFmpegStatusIndicator.Color = Colors.Red;
+                FFmpegStatusDot.SetDynamicResource(Border.BackgroundProperty, "DangerBrush");
                 FFmpegStatusLabel.Text = "Not Installed";
                 FFmpegDetailLabel.Text = "FFmpeg is required for video conversion. It will be downloaded automatically when needed, or you can download it now.";
                 DownloadFFmpegButton.IsVisible = true;
+                CopyFFmpegPathButton.IsVisible = false;
             }
         }
 
@@ -216,3 +234,4 @@ namespace FolderUIGram
         }
     }
 }
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="FolderUIGram.Resources.Themes.ChampagneRose">
+    <Color x:Key="AppBackground">#FBF3EE</Color>
+    <Color x:Key="BackgroundTint">#F6E6E1</Color>
+    <Color x:Key="GlassSurface">#FFFBF8</Color>
+    <Color x:Key="GlassSurfaceAlt">#F9EDE7</Color>
+    <Color x:Key="GlassBorder">#EBD6CF</Color>
+    <Color x:Key="AccentPrimary">#C66D83</Color>
+    <Color x:Key="AccentSecondary">#A78AD4</Color>
+    <Color x:Key="AccentSoft">#F3DDE5</Color>
+    <Color x:Key="TextPrimary">#44313D</Color>
+    <Color x:Key="TextSecondary">#806D78</Color>
+    <Color x:Key="Success">#287B50</Color>
+    <Color x:Key="Danger">#C94F55</Color>
+
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#FBF3EE"/>
+    <SolidColorBrush x:Key="BackgroundTintBrush" Color="#F6E6E1"/>
+    <SolidColorBrush x:Key="GlassSurfaceBrush" Color="#F2FFFBF8"/>
+    <SolidColorBrush x:Key="GlassSurfaceAltBrush" Color="#F9EDE7"/>
+    <SolidColorBrush x:Key="GlassBorderBrush" Color="#EBD6CF"/>
+    <SolidColorBrush x:Key="AccentPrimaryBrush" Color="#C66D83"/>
+    <SolidColorBrush x:Key="AccentSecondaryBrush" Color="#A78AD4"/>
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="#F3DDE5"/>
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#44313D"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#806D78"/>
+    <SolidColorBrush x:Key="SuccessBrush" Color="#287B50"/>
+    <SolidColorBrush x:Key="DangerBrush" Color="#C94F55"/>
+
+    <LinearGradientBrush x:Key="AppBackgroundGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FBF3EE" Offset="0.0"/>
+        <GradientStop Color="#F6E6E1" Offset="1.0"/>
+    </LinearGradientBrush>
+</ResourceDictionary>
+

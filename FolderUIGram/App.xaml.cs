@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FolderUIGram
 {
@@ -7,6 +7,7 @@ namespace FolderUIGram
         public App()
         {
             InitializeComponent();
+            ThemeService.ApplySaved();
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
